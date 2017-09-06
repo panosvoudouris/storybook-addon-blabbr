@@ -13,11 +13,19 @@ const db = new PouchDB('blabbr');
 
 const dbEmitter = new EventEmitter();
 
-db.createIndex({
-  index: {
-    fields: ['componentId', 'timestamp', 'version']
-  }
-});
+try {
+  db.createIndex({
+    index: {
+      fields: ['componentId', 'timestamp', 'version']
+    }
+  });
+} catch (e) {
+  db.default.createIndex({
+    index: {
+      fields: ['componentId', 'timestamp', 'version']
+    }
+  });
+}
 
 dbConfig()
   .then(response => {
